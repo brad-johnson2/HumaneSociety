@@ -195,14 +195,8 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            db.Animals = animal.CategoryId;
-            animal.Name = db.Animals.
-            animal.Age 
-            animal.Demeanor 
-            animal.KidFriendly 
-            animal.PetFriendly 
-            animal.Weight 
-            animal.DietPlanId 
+            db.Animals.InsertOnSubmit(animal);
+            db.SubmitChanges();
         }
 
         internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
@@ -212,11 +206,35 @@ namespace HumaneSociety
 
         internal static void RemoveAnimal(object animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            db.Log = Console.Out;
+
+            Console.WriteLine("Which Animal ID would you like to delete?");
+            Console.ReadLine();
+            int deleteAnimal = int.Parse(Console.ReadLine());
+
+
+            var ordDetailQuery =
+                from odq in db.Animals
+                where odq.AnimalId == deleteAnimal
+                select odq;
+
+            foreach (var entry in ordDetailQuery)
+            {
+                
+                db.Animals.DeleteOnSubmit(entry);
+            }
+
+           
+            Console.WriteLine("Deleted.");
+            
         }
 
         internal static object SearchForAnimalByMultipleTraits()
         {
+
+            //select animal from db where searchSpecies = db.category OR searchAge = db.age OR searchDemeanor = db. demeanor OR searchKid = db.kidfriendly 
             throw new NotImplementedException();
         }
     }
