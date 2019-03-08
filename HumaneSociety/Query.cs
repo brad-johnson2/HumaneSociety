@@ -73,9 +73,9 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static object GetPendingAdoptions()
+        internal static IQueryable GetPendingAdoptions()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         internal static void UpdateClient(Client clientWithUpdates)
@@ -159,7 +159,7 @@ namespace HumaneSociety
             return employeeWithUserName == null;
         }
 
-        internal static object GetShots(Animal animal)
+        internal static IQueryable GetShots(Animal animal)
         {
             throw new NotImplementedException();
         }
@@ -207,13 +207,41 @@ namespace HumaneSociety
             Animal animalFromDb = db.Animals.Where(a => a.AnimalId == updates.AnimalId).Single();
 
             // update clientFromDb information with the values on clientWithUpdates (aside from address)
-            animalFromDb.Name = updates.Name;
-            animalFromDb.Weight = updates.Weight;
-            animalFromDb.Age = updates.Age;
-            animalFromDb.Demeanor = updates.Demeanor;
-            animalFromDb.KidFriendly = updates.KidFriendly;
-            animalFromDb.PetFriendly = updates.PetFriendly;
-            animalFromDb.AdoptionStatus = updates.AdoptionStatus;
+
+
+            if (updates.ContainsKey(1))
+            {
+                //animal.Category = updates[1];
+            }
+            if (updates.ContainsKey(2))
+            {
+                animal.Name = updates[2];
+            }
+            if (updates.ContainsKey(3))
+            {
+                animal.Age = int.Parse(updates[3]);
+            }
+            if (updates.ContainsKey(4))
+            {
+                animal.Demeanor = updates[4];
+            }
+            if (updates.ContainsKey(5))
+            {
+                animal.KidFriendly = bool.Parse(updates[5]);
+            }
+            if (updates.ContainsKey(6))
+            {
+                animal.PetFriendly = bool.Parse(updates[6]);
+            }
+            if (updates.ContainsKey(7))
+            {
+                animal.Weight = int.Parse(updates[7]);
+            }
+            
+            
+        }
+
+        
 
             // get address object from clientWithUpdates
             Address clientAddress = clientWithUpdates.Address;
@@ -221,20 +249,7 @@ namespace HumaneSociety
             // look for existing Address in Db (null will be returned if the address isn't already in the Db
             Address updatedAddress = db.Addresses.Where(a => a.AddressLine1 == clientAddress.AddressLine1 && a.USStateId == clientAddress.USStateId && a.Zipcode == clientAddress.Zipcode).FirstOrDefault();
 
-            // if the address isn't found in the Db, create and insert it
-            if (updatedAddress == null)
-            {
-                Address newAddress = new Address();
-                newAddress.AddressLine1 = clientAddress.AddressLine1;
-                newAddress.AddressLine2 = null;
-                newAddress.Zipcode = clientAddress.Zipcode;
-                newAddress.USStateId = clientAddress.USStateId;
-
-                db.Addresses.InsertOnSubmit(newAddress);
-                db.SubmitChanges();
-
-                updatedAddress = newAddress;
-            }
+            
 
             // attach AddressId to clientFromDb.AddressId
             clientFromDb.AddressId = updatedAddress.AddressId;
@@ -270,7 +285,7 @@ namespace HumaneSociety
             
         }
 
-        internal static object SearchForAnimalByMultipleTraits()
+        internal static IQueryable SearchForAnimalByMultipleTraits()
         {
 
             //select animal from db where searchSpecies = db.category OR searchAge = db.age OR searchDemeanor = db. demeanor OR searchKid = db.kidfriendly 

@@ -9,7 +9,9 @@ namespace HumaneSociety
     class UserEmployee : User
     {
         Employee employee;
-        
+        public interface IQueryable : System.Collections.IEnumerable { }
+
+
         public override void LogIn()
         {
             if (CheckIfNewUser())
@@ -163,7 +165,7 @@ namespace HumaneSociety
             {
                 shotInfo.Add($"{shot.Shot.Name} Date: {shot.DateReceived}");
             }
-
+            
             if (shotInfo.Count > 0)
             {
                 UserInterface.DisplayUserOptions(shotInfo);
