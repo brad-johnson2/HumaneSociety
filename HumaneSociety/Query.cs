@@ -73,7 +73,7 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static IQueryable GetPendingAdoptions()
+        internal static IQueryable<Adoption> GetPendingAdoptions()
         {
             return null;
         }
@@ -159,7 +159,7 @@ namespace HumaneSociety
             return employeeWithUserName == null;
         }
 
-        internal static IQueryable GetShots(Animal animal)
+        internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
             throw new NotImplementedException();
         }
@@ -189,25 +189,20 @@ namespace HumaneSociety
 
 
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            string getCat = UserInterface.GetStringData("the animal", "species");
 
             
-            Category categoryFromDb = db.Categories.Where(c => c.CategoryId == .CategoryId).Single();
 
-            // update clientFromDb information with the values on clientWithUpdates (aside from address)
-            clientFromDb.FirstName = clientWithUpdates.FirstName;
            
 
-            // get address object from clientWithUpdates
-            Address clientAddress = clientWithUpdates.Address;
-
             // look for existing category in Db (null will be returned if the category isn't already in the Db
-            Category updatedCategory = db.Categories.Where(a => a.CategoryId == Category.CategoryId).FirstOrDefault();
+            Category updatedCategory = db.Categories.Where(a => a.Name == getCat).FirstOrDefault();
 
             // if category isn't found in the Db, create and insert it
             if (updatedCategory == null)
             {
                 Category newCategory = new Category();
-                newCategory.CategoryId = max category id + 1???
+                newCategory.CategoryId = 
                 
 
                 db.Categories.InsertOnSubmit(newCategory);
@@ -312,7 +307,7 @@ namespace HumaneSociety
             
         }
 
-        internal static IQueryable SearchForAnimalByMultipleTraits()
+        internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
         {
 
             //select animal from db where searchSpecies = db.category OR searchAge = db.age OR searchDemeanor = db. demeanor OR searchKid = db.kidfriendly 
