@@ -44,7 +44,7 @@ namespace HumaneSociety
         }
         protected override void RunUserMenus()
         {
-            List<string> options = new List<string>() { "1. Search for animals", "2. Update info", "3. Apply for Adoption" };
+            List<string> options = new List<string>() { "1. Search for animals", "2. Update Info", "3. Apply for Adoption" };
             Console.Clear();            
             UserInterface.DisplayUserOptions(options);
             int input = UserInterface.GetIntegerData();

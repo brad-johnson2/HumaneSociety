@@ -20,7 +20,7 @@ namespace HumaneSociety
 
         internal static Client GetClient(string userName, string password)
         {
-            // HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
             Client client = db.Clients.Where(c => c.UserName == userName && c.Password == password).Single();
 
@@ -29,7 +29,7 @@ namespace HumaneSociety
 
         internal static List<Client> GetClients()
         {
-            // HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
 
             List<Client> allClients = db.Clients.ToList();
 
@@ -38,7 +38,7 @@ namespace HumaneSociety
 
         internal static void AddNewClient(string firstName, string lastName, string username, string password, string email, string streetAddress, int zipCode, int stateId)
         {
-            // HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
 
             Client newClient = new Client();
 
@@ -73,9 +73,14 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
+        internal static object GetPendingAdoptions()
+        {
+            throw new NotImplementedException();
+        }
+
         internal static void UpdateClient(Client clientWithUpdates)
         {
-            // HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
 
             // find corresponding Client from Db
             Client clientFromDb = db.Clients.Where(c => c.ClientId == clientWithUpdates.ClientId).Single();
@@ -115,9 +120,14 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
+        internal static void UpdateAdoption(bool v, Adoption adoption)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
         {
-            // HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
 
             Employee employeeFromDb = db.Employees.Where(e => e.Email == email && e.EmployeeNumber == employeeNumber).FirstOrDefault();
 
@@ -133,7 +143,7 @@ namespace HumaneSociety
 
         internal static Employee EmployeeLogin(string userName, string password)
         {
-            // HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
 
             Employee employeeFromDb = db.Employees.Where(e => e.UserName == userName && e.Password == password).FirstOrDefault();
 
@@ -142,16 +152,21 @@ namespace HumaneSociety
 
         internal static bool CheckEmployeeUserNameExist(string userName)
         {
-            // HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
 
             Employee employeeWithUserName = db.Employees.Where(e => e.UserName == userName).FirstOrDefault();
 
             return employeeWithUserName == null;
         }
 
+        internal static object GetShots(Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static void AddUsernameAndPassword(Employee employee)
         {
-            // HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
+            HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
 
             Employee employeeFromDb = db.Employees.Where(e => e.EmployeeId == employee.EmployeeId).FirstOrDefault();
 
@@ -159,6 +174,50 @@ namespace HumaneSociety
             employeeFromDb.Password = employee.Password;
 
             db.SubmitChanges();
+        }
+
+        internal static void UpdateShot(string v, Animal animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static int? GetCategoryId()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static int? GetDietPlanId()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void AddAnimal(Animal animal)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            db.Animals = animal.CategoryId;
+            animal.Name = db.Animals.
+            animal.Age 
+            animal.Demeanor 
+            animal.KidFriendly 
+            animal.PetFriendly 
+            animal.Weight 
+            animal.DietPlanId 
+        }
+
+        internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void RemoveAnimal(object animal)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static object SearchForAnimalByMultipleTraits()
+        {
+            throw new NotImplementedException();
         }
     }
 }
