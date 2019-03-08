@@ -201,7 +201,46 @@ namespace HumaneSociety
 
         internal static void EnterAnimalUpdate(Animal animal, Dictionary<int, string> updates)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            // find corresponding Client from Db
+            Animal animalFromDb = db.Animals.Where(a => a.AnimalId == updates.AnimalId).Single();
+
+            // update clientFromDb information with the values on clientWithUpdates (aside from address)
+            animalFromDb.Name = updates.Name;
+            animalFromDb.Weight = updates.Weight;
+            animalFromDb.Age = updates.Age;
+            animalFromDb.Demeanor = updates.Demeanor;
+            animalFromDb.KidFriendly = updates.KidFriendly;
+            animalFromDb.PetFriendly = updates.PetFriendly;
+            animalFromDb.AdoptionStatus = updates.AdoptionStatus;
+
+            // get address object from clientWithUpdates
+            Address clientAddress = clientWithUpdates.Address;
+
+            // look for existing Address in Db (null will be returned if the address isn't already in the Db
+            Address updatedAddress = db.Addresses.Where(a => a.AddressLine1 == clientAddress.AddressLine1 && a.USStateId == clientAddress.USStateId && a.Zipcode == clientAddress.Zipcode).FirstOrDefault();
+
+            // if the address isn't found in the Db, create and insert it
+            if (updatedAddress == null)
+            {
+                Address newAddress = new Address();
+                newAddress.AddressLine1 = clientAddress.AddressLine1;
+                newAddress.AddressLine2 = null;
+                newAddress.Zipcode = clientAddress.Zipcode;
+                newAddress.USStateId = clientAddress.USStateId;
+
+                db.Addresses.InsertOnSubmit(newAddress);
+                db.SubmitChanges();
+
+                updatedAddress = newAddress;
+            }
+
+            // attach AddressId to clientFromDb.AddressId
+            clientFromDb.AddressId = updatedAddress.AddressId;
+
+            // submit changes
+            db.SubmitChanges();
         }
 
         internal static void RemoveAnimal(object animal)
