@@ -183,7 +183,50 @@ namespace HumaneSociety
 
         internal static int? GetCategoryId()
         {
-            throw new NotImplementedException();
+            //search if categoryid exists 
+
+            //if it doesn't, make a new one
+
+
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            
+            Category categoryFromDb = db.Categories.Where(c => c.CategoryId == .CategoryId).Single();
+
+            // update clientFromDb information with the values on clientWithUpdates (aside from address)
+            clientFromDb.FirstName = clientWithUpdates.FirstName;
+           
+
+            // get address object from clientWithUpdates
+            Address clientAddress = clientWithUpdates.Address;
+
+            // look for existing category in Db (null will be returned if the category isn't already in the Db
+            Category updatedCategory = db.Categories.Where(a => a.CategoryId == Category.CategoryId).FirstOrDefault();
+
+            // if category isn't found in the Db, create and insert it
+            if (updatedCategory == null)
+            {
+                Category newCategory = new Category();
+                newCategory.CategoryId = max category id + 1???
+                
+
+                db.Categories.InsertOnSubmit(newCategory);
+                db.SubmitChanges();
+
+                updatedCategory = newCategory;
+            }
+
+            // attach category to clientFromDb.AddressId
+            Category.categoryId = ;
+
+            // submit changes
+            db.SubmitChanges();
+
+
+
+
+
+
         }
 
         internal static int? GetDietPlanId()
@@ -203,11 +246,8 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            // find corresponding Client from Db
-            Animal animalFromDb = db.Animals.Where(a => a.AnimalId == updates.AnimalId).Single();
-
-            // update clientFromDb information with the values on clientWithUpdates (aside from address)
-
+           
+            Animal animalFromDb = db.Animals.Where(a => a.AnimalId == animal.AnimalId).Single();
 
             if (updates.ContainsKey(1))
             {
@@ -243,20 +283,7 @@ namespace HumaneSociety
 
         
 
-            // get address object from clientWithUpdates
-            Address clientAddress = clientWithUpdates.Address;
 
-            // look for existing Address in Db (null will be returned if the address isn't already in the Db
-            Address updatedAddress = db.Addresses.Where(a => a.AddressLine1 == clientAddress.AddressLine1 && a.USStateId == clientAddress.USStateId && a.Zipcode == clientAddress.Zipcode).FirstOrDefault();
-
-            
-
-            // attach AddressId to clientFromDb.AddressId
-            clientFromDb.AddressId = updatedAddress.AddressId;
-
-            // submit changes
-            db.SubmitChanges();
-        }
 
         internal static void RemoveAnimal(object animal)
         {
