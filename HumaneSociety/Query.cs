@@ -219,8 +219,10 @@ namespace HumaneSociety
         internal static int? GetDietPlanId()
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            string getDiet = UserInterface.GetStringData("the animal", "diet");
-
+            string getDiet = UserInterface.GetStringData("diet", "the animal's");
+            string getFoodType = UserInterface.GetStringData("food type", "the animal's");
+            string getAmountString = UserInterface.GetStringData("amount", "food");
+            int getAmount = int.Parse(getAmountString);
 
 
             // look for existing category in Db (null will be returned if the category isn't already in the Db
@@ -231,7 +233,8 @@ namespace HumaneSociety
             {
                 DietPlan newDiet = new DietPlan();
                 newDiet.Name = getDiet;
-
+                newDiet.FoodType = getFoodType;
+                newDiet.FoodAmountInCups = getAmount;
 
                 db.DietPlans.InsertOnSubmit(newDiet);
                 db.SubmitChanges();
@@ -241,6 +244,8 @@ namespace HumaneSociety
 
             // attach category to clientFromDb.AddressId
             updatedDiet.Name = getDiet;
+            updatedDiet.FoodType = getFoodType;
+            updatedDiet.FoodAmountInCups = getAmount;
 
             // submit changes
             db.SubmitChanges();
