@@ -120,6 +120,26 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
+        internal static Animal GetAnimalByID(int iD)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void Adopt(object animal, Client client)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static void RunEmployeeQueries(Employee employee, string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static Room GetRoom(int animalId)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
             throw new NotImplementedException();
@@ -214,6 +234,7 @@ namespace HumaneSociety
 
             // submit changes
             db.SubmitChanges();
+            return null;
         }
 
         internal static int? GetDietPlanId()
@@ -240,6 +261,7 @@ namespace HumaneSociety
                 db.SubmitChanges();
 
                 updatedDiet = newDiet;
+                return null;
             }
 
             // attach category to clientFromDb.AddressId
@@ -249,6 +271,7 @@ namespace HumaneSociety
 
             // submit changes
             db.SubmitChanges();
+            return null;
         }
 
         internal static void AddAnimal(Animal animal)

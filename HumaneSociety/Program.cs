@@ -11,9 +11,9 @@ namespace HumaneSociety
         static void Main(string[] args)
         {
             UserEmployee ue = new UserEmployee();
-            ue.UpdateAnimal();
-            ue.UpdateAnimal();
-            // PointOfEntry.Run();            
+            //ue.UpdateAnimal();
+            //uie.UpdateAnimal();
+            PointOfEntry.Run();            
         }
     }
 }
