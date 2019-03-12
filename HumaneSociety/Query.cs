@@ -354,9 +354,30 @@ namespace HumaneSociety
 
         internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
         {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            List<Animal> multipleSearch = UserInterface.EnterSearchCriteria();
+
+            //if (db.Animals.Contains<Animal>())
+            //{
+            //    multipleSearch.AddAnimal(animal);
+
+            //}
+
+            List<Animal> foundAnimals;
+            foundAnimals = db.Animals.Where(
+                m =>
+                (isSearchingByName ? m.Name.ToLower() == nameToSearch.ToLower() : m.Name != null) &&
+                (isSearchingBySpecies ? m.Category == categoryToSearch : m.Category != null) &&
+                (isSearchingByAdoptionStatus ? m.KidFriendly == animalIsKF : m.KidFriendly != null)
+                ).OrderBy(m => m.AnimalID).ToList();
+
+            UserInterface.DisplayAnimals(foundAnimals);
+            return foundAnimals;
+
 
             //select animal from db where searchSpecies = db.category OR searchAge = db.age OR searchDemeanor = db. demeanor OR searchKid = db.kidfriendly 
-            throw new NotImplementedException();
+
         }
     }
 }
