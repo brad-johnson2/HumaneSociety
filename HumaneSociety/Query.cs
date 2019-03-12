@@ -193,8 +193,6 @@ namespace HumaneSociety
 
             
 
-           
-
             // look for existing category in Db (null will be returned if the category isn't already in the Db
             Category updatedCategory = db.Categories.Where(a => a.Name == getCat).FirstOrDefault();
 
@@ -202,7 +200,7 @@ namespace HumaneSociety
             if (updatedCategory == null)
             {
                 Category newCategory = new Category();
-                newCategory.CategoryId = 
+                newCategory.Name = getCat;
                 
 
                 db.Categories.InsertOnSubmit(newCategory);
@@ -212,21 +210,40 @@ namespace HumaneSociety
             }
 
             // attach category to clientFromDb.AddressId
-            Category.categoryId = ;
+            updatedCategory.Name = getCat;
 
             // submit changes
             db.SubmitChanges();
-
-
-
-
-
-
         }
 
         internal static int? GetDietPlanId()
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            string getDiet = UserInterface.GetStringData("the animal", "diet");
+
+
+
+            // look for existing category in Db (null will be returned if the category isn't already in the Db
+            DietPlan updatedDiet = db.DietPlans.Where(a => a.Name == getDiet).FirstOrDefault();
+
+            // if category isn't found in the Db, create and insert it
+            if (updatedDiet == null)
+            {
+                DietPlan newDiet = new DietPlan();
+                newDiet.Name = getDiet;
+
+
+                db.DietPlans.InsertOnSubmit(newDiet);
+                db.SubmitChanges();
+
+                updatedDiet = newDiet;
+            }
+
+            // attach category to clientFromDb.AddressId
+            updatedDiet.Name = getDiet;
+
+            // submit changes
+            db.SubmitChanges();
         }
 
         internal static void AddAnimal(Animal animal)
