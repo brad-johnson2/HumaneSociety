@@ -356,20 +356,54 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            List<Animal> multipleSearch = UserInterface.EnterSearchCriteria();
+            var animalSearch = UserInterface.GetAnimalCriteria();
 
-            //if (db.Animals.Contains<Animal>())
-            //{
-            //    multipleSearch.AddAnimal(animal);
-
-            //}
+            
+            
+            
 
             List<Animal> foundAnimals;
+
+            if (animalSearch.ContainsKey(1))
+            {
+                foundAnimals = db.Categories.Where(a => a.Name == animalSearch[1]).FirstOrDefault()).ToList();
+            }
+            if (animalSearch.ContainsKey(2))
+            {
+                foundAnimals = db.Animals.Where(a => a.Name == animalSearch.Values.FirstOrDefault()).ToList();
+            }
+            if (animalSearch.ContainsKey(3))
+            {
+                foundAnimals = db.Animals.Where(a => a.Age == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
+
+            }
+            if (animalSearch.ContainsKey(4))
+            {
+                foundAnimals = db.Animals.Where(a => a.Demeanor == animalSearch.Values.FirstOrDefault()).ToList();
+            }
+            if (animalSearch.ContainsKey(5))
+            {
+                foundAnimals = db.Animals.Where(a => a.KidFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
+            }
+            if (animalSearch.ContainsKey(6))
+            {
+                foundAnimals = db.Animals.Where(a => a.PetFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
+            }
+            if (animalSearch.ContainsKey(7))
+            {
+                foundAnimals = db.Animals.Where(a => a.Weight == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
+            }
+
+
+
+
+
+
             foundAnimals = db.Animals.Where(
                 m =>
-                (isSearchingByName ? m.Name.ToLower() == nameToSearch.ToLower() : m.Name != null) &&
-                (isSearchingBySpecies ? m.Category == categoryToSearch : m.Category != null) &&
-                (isSearchingByAdoptionStatus ? m.KidFriendly == animalIsKF : m.KidFriendly != null)
+                
+                (m.Category == animal.category) &&
+                (m.KidFriendly == animal.KidFriendly)
                 ).OrderBy(m => m.AnimalID).ToList();
 
             UserInterface.DisplayAnimals(foundAnimals);
