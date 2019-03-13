@@ -75,7 +75,9 @@ namespace HumaneSociety
 
         internal static IQueryable<Adoption> GetPendingAdoptions()
         {
-            return null;
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            IQueryable<Adoption> pendingAdoptions = db.Adoptions.Where(a => a.ApprovalStatus == "Pending");
+            return pendingAdoptions;
         }
 
         internal static void UpdateClient(Client clientWithUpdates)
@@ -156,8 +158,12 @@ namespace HumaneSociety
                 case "read":
                     Console.WriteLine(employee);
                     break;
+
+                default:
+                    break;
                  
             }
+
         }
 
         internal static Room GetRoom(int animalId)
@@ -190,7 +196,17 @@ namespace HumaneSociety
 
         internal static void UpdateAdoption(bool v, Adoption adoption)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            if (v == true)
+            {
+                adoption.ApprovalStatus = "Approved";
+                Console.WriteLine("Approved.");
+                
+            }
+            else
+            {
+                Console.WriteLine("Adoption denied.");
+            }
         }
 
         internal static Employee RetrieveEmployeeUser(string email, int employeeNumber)
