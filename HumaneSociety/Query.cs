@@ -50,7 +50,7 @@ namespace HumaneSociety
 
             Address addressFromDb = db.Addresses.Where(a => a.AddressLine1 == streetAddress && a.Zipcode == zipCode && a.USStateId == stateId).FirstOrDefault();
 
-            // if the address isn't found in the Db, create and insert it
+       
             if (addressFromDb == null)
             {
                 Address newAddress = new Address();
@@ -65,7 +65,7 @@ namespace HumaneSociety
                 addressFromDb = newAddress;
             }
 
-            // attach AddressId to clientFromDb.AddressId
+           
             newClient.AddressId = addressFromDb.AddressId;
 
             db.Clients.InsertOnSubmit(newClient);
@@ -83,24 +83,19 @@ namespace HumaneSociety
         internal static void UpdateClient(Client clientWithUpdates)
         {
             HumaneSocietyDataContext  db = new HumaneSocietyDataContext();
-
-            // find corresponding Client from Db
+            
             Client clientFromDb = db.Clients.Where(c => c.ClientId == clientWithUpdates.ClientId).Single();
-
-            // update clientFromDb information with the values on clientWithUpdates (aside from address)
+            
             clientFromDb.FirstName = clientWithUpdates.FirstName;
             clientFromDb.LastName = clientWithUpdates.LastName;
             clientFromDb.UserName = clientWithUpdates.UserName;
             clientFromDb.Password = clientWithUpdates.Password;
             clientFromDb.Email = clientWithUpdates.Email;
-
-            // get address object from clientWithUpdates
+            
             Address clientAddress = clientWithUpdates.Address;
-
-            // look for existing Address in Db (null will be returned if the address isn't already in the Db
+            
             Address updatedAddress = db.Addresses.Where(a => a.AddressLine1 == clientAddress.AddressLine1 && a.USStateId == clientAddress.USStateId && a.Zipcode == clientAddress.Zipcode).FirstOrDefault();
-
-            // if the address isn't found in the Db, create and insert it
+            
             if(updatedAddress == null)
             {
                 Address newAddress = new Address();
@@ -114,11 +109,9 @@ namespace HumaneSociety
 
                 updatedAddress = newAddress;
             }
-
-            // attach AddressId to clientFromDb.AddressId
+            
             clientFromDb.AddressId = updatedAddress.AddressId;
             
-            // submit changes
             db.SubmitChanges();
         }
 
@@ -133,7 +126,21 @@ namespace HumaneSociety
 
         internal static void Adopt(object animal, Client client)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+           
+
+            Adoption newAdoption = null;
+            newAdoption.ClientId = client.ClientId;
+            newAdoption.AnimalId = animal;
+            newAdoption.ApprovalStatus = "Pending";
+
+            newAdoption.PaymentCollected = false;
+            newAdoption.AdoptionFee = 75;
+            
+
+
+            submit 
         }
 
         internal static Delegate RunEmployeeQueries(Employee employee, string v)
@@ -276,9 +283,9 @@ namespace HumaneSociety
 
             var foundShots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);  //name
 
-            AnimalShot shotItem = db.AnimalShots.Where(a => a.ShotId == ).FirstOrDefault(); //AnimalShot.shotid == shot.shotid
+            AnimalShot shotItem = db.AnimalShots.Where(a => a.Shot == foundShots).FirstOrDefault(); //AnimalShot.shotid == shot.shotid
 
-            shotItem.DateReceived = DateTime.Now; 
+            shotItem.DateReceived = DateTime.Now;
         }
 
         internal static int? GetCategoryId()
