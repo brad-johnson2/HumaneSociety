@@ -200,8 +200,10 @@ namespace HumaneSociety
             if (v == true)
             {
                 adoption.ApprovalStatus = "Approved";
+                Animal adoptedAnimal = db.Animals.Where(a => a.AnimalId == adoption.AnimalId).FirstOrDefault();
+                adoptedAnimal.AdoptionStatus = "Adopted";
                 Console.WriteLine("Approved.");
-                
+                //UserEmployee.RunUserMenus();
             }
             else
             {
@@ -455,7 +457,8 @@ namespace HumaneSociety
 
             
             UserInterface.DisplayAnimals(foundAnimals);
-            return foundAnimals;
+            var queryableAnimals = foundAnimals.AsQueryable();
+            return queryableAnimals;
 
             
         }
