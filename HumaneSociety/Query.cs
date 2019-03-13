@@ -134,9 +134,30 @@ namespace HumaneSociety
             throw new NotImplementedException();
         }
 
-        internal static void RunEmployeeQueries(Employee employee, string v)
+        internal static Delegate RunEmployeeQueries(Employee employee, string v)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            switch (v)
+            {
+                case "create":
+                    db.Employees.InsertOnSubmit(employee);
+                    db.SubmitChanges();
+                    break;
+
+                case "delete":
+                    db.Employees.DeleteOnSubmit(employee);
+                    db.SubmitChanges();
+                    break;
+              
+                case "update":
+                    employee = db.Employees.Where(a => a.EmployeeId == employee.EmployeeId).Single();
+                    break;
+
+                case "read":
+                    Console.WriteLine(employee);
+                    break;
+                 
+            }
         }
 
         internal static Room GetRoom(int animalId)
@@ -158,7 +179,6 @@ namespace HumaneSociety
 
                 db.Rooms.InsertOnSubmit(newRoom);
                 db.SubmitChanges();
-
                 
                 return newRoom;
             }
@@ -214,13 +234,9 @@ namespace HumaneSociety
             IQueryable<AnimalShot> listAnimalShots = db.AnimalShots.Where(m => m.AnimalId == animal.AnimalId);
 
             return listAnimalShots;
-
-
+            
         }
-
-
-
-
+        
 
         internal static void AddUsernameAndPassword(Employee employee)
         {
@@ -242,16 +258,11 @@ namespace HumaneSociety
         internal static int? GetCategoryId()
         {
            
-
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             string getCat = UserInterface.GetStringData("the animal", "species");
-
-            
-
             
             Category updatedCategory = db.Categories.Where(a => a.Name == getCat).FirstOrDefault();
 
-            // if category isn't found in the Db, create and insert it
             if (updatedCategory == null)
             {
                 Category newCategory = new Category();
@@ -263,11 +274,9 @@ namespace HumaneSociety
 
                 updatedCategory = newCategory;
             }
-
-            // attach category to clientFromDb.AddressId
+            
             updatedCategory.Name = getCat;
-
-            // submit changes
+            
             db.SubmitChanges();
             return null;
         }
@@ -280,11 +289,9 @@ namespace HumaneSociety
             string getAmountString = UserInterface.GetStringData("amount", "food");
             int getAmount = int.Parse(getAmountString);
 
-
-            // look for existing category in Db (null will be returned if the category isn't already in the Db
+            
             DietPlan updatedDiet = db.DietPlans.Where(a => a.Name == getDiet).FirstOrDefault();
-
-            // if category isn't found in the Db, create and insert it
+            
             if (updatedDiet == null)
             {
                 DietPlan newDiet = new DietPlan();
@@ -298,13 +305,11 @@ namespace HumaneSociety
                 updatedDiet = newDiet;
                 return null;
             }
-
-            // attach category to clientFromDb.AddressId
+            
             updatedDiet.Name = getDiet;
             updatedDiet.FoodType = getFoodType;
             updatedDiet.FoodAmountInCups = getAmount;
-
-            // submit changes
+            
             db.SubmitChanges();
             return null;
         }
