@@ -138,31 +138,32 @@ namespace HumaneSociety
 
         internal static Delegate RunEmployeeQueries(Employee employee, string v)
         {
-            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            switch (v)
-            {
-                case "create":
-                    db.Employees.InsertOnSubmit(employee);
-                    db.SubmitChanges();
-                    break;
+            throw new NotImplementedException();
+            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            //switch (v)
+            //{
+            //    case "create":
+            //        db.Employees.InsertOnSubmit(employee);
+            //        db.SubmitChanges();
+            //        break;
 
-                case "delete":
-                    db.Employees.DeleteOnSubmit(employee);
-                    db.SubmitChanges();
-                    break;
-              
-                case "update":
-                    employee = db.Employees.Where(a => a.EmployeeId == employee.EmployeeId).Single();
-                    break;
+            //    case "delete":
+            //        db.Employees.DeleteOnSubmit(employee);
+            //        db.SubmitChanges();
+            //        break;
 
-                case "read":
-                    Console.WriteLine(employee);
-                    break;
+            //    case "update":
+            //        employee = db.Employees.Where(a => a.EmployeeId == employee.EmployeeId).Single();
+            //        break;
 
-                default:
-                    break;
-                 
-            }
+            //    case "read":
+            //        Console.WriteLine(employee);
+            //        break;
+
+            //    default:
+            //        break;
+
+        //}
 
         }
 
@@ -270,7 +271,14 @@ namespace HumaneSociety
 
         internal static void UpdateShot(string v, Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+
+            var foundShots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);  //name
+
+            AnimalShot shotItem = db.AnimalShots.Where(a => a.ShotId == ).FirstOrDefault(); //AnimalShot.shotid == shot.shotid
+
+            shotItem.DateReceived = DateTime.Now; 
         }
 
         internal static int? GetCategoryId()
@@ -441,15 +449,15 @@ namespace HumaneSociety
                 {
                     foundAnimals = db.Animals.Where(a => a.Demeanor == animalSearch.Values.FirstOrDefault()).ToList();
                 }
-                if (pair.Key == 1)
+                if (pair.Key == 5)
                 {
                     foundAnimals = db.Animals.Where(a => a.KidFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
-                if (pair.Key == 1)
+                if (pair.Key == 6)
                 {
                     foundAnimals = db.Animals.Where(a => a.PetFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
-                if (pair.Key == 1)
+                if (pair.Key == 7)
                 {
                     foundAnimals = db.Animals.Where(a => a.Weight == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
