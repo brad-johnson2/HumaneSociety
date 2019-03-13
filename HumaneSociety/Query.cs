@@ -122,7 +122,11 @@ namespace HumaneSociety
 
         internal static Animal GetAnimalByID(int iD)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            Animal foundAnimal = db.Animals.Where(a => a.AnimalId == iD).FirstOrDefault();
+            return foundAnimal;
+
         }
 
         internal static void Adopt(object animal, Client client)
@@ -389,63 +393,50 @@ namespace HumaneSociety
 
             var animalSearch = UserInterface.GetAnimalCriteria();
 
-            List<Animal> foundAnimals;
-            IQueryable<Animal> foundCategory;
+            List<Animal> foundAnimals = null;
+            
 
 
-            foreach (KeyValuePair<int, string> pair in animalSearch)
-               
+            foreach (KeyValuePair<int, string> pair in animalSearch) {
+
                 if (pair.Key == 1)
-                    {
-                     foundCategory = db.Categories.Where(a => a.Name == animalSearch.Values.FirstOrDefault());
+                {
+                    var species = db.Categories.Where(a => a.Name == pair.Value).FirstOrDefault();
 
-
-                    foundAnimals = db.Animals.Where(a => a.Name == foundCategory).FirstOrDefault()).ToList();
-                    }
+                    foundAnimals = db.Animals.Where(a => a.CategoryId == species.CategoryId).ToList();
+                }
                 if (pair.Key == 2)
                 {
                     foundAnimals = db.Animals.Where(a => a.Name == animalSearch.Values.FirstOrDefault()).ToList();
                 }
                 if (pair.Key == 3)
-            {
+                {
                     foundAnimals = db.Animals.Where(a => a.Age == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
 
                 }
                 if (pair.Key == 4)
-            {
+                {
                     foundAnimals = db.Animals.Where(a => a.Demeanor == animalSearch.Values.FirstOrDefault()).ToList();
                 }
                 if (pair.Key == 1)
-            {
+                {
                     foundAnimals = db.Animals.Where(a => a.KidFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
                 if (pair.Key == 1)
-            {
+                {
                     foundAnimals = db.Animals.Where(a => a.PetFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
                 if (pair.Key == 1)
-            {
+                {
                     foundAnimals = db.Animals.Where(a => a.Weight == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
+            }
 
-
-
-
-
-
-            //foundAnimals = db.Animals.Where(
-            //    m =>
-                
-            //    (m.Category == animal.category) &&
-            //    (m.KidFriendly == animal.KidFriendly)
-            //    ).OrderBy(m => m.AnimalID).ToList();
-
+            
             UserInterface.DisplayAnimals(foundAnimals);
             return foundAnimals;
 
-
-            //select animal from db where searchSpecies = db.category OR searchAge = db.age OR searchDemeanor = db. demeanor OR searchKid = db.kidfriendly 
-
+            
         }
     }
 }
