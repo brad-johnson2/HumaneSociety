@@ -418,39 +418,42 @@ namespace HumaneSociety
             
             
 
-            List<Animal> foundAnimals;
+            
 
-            if (animalSearch.ContainsKey(1))
-            {
-                Category.Join(context.Animals, u => u.Category.ID, c => c.CategoryID).Select
-                Category.animalSearch.Values
-                foundAnimals = db.Animals.Where(a => a.CategoryId == !!!!!).FirstOrDefault()).ToList();
-            }
-            if (animalSearch.ContainsKey(2))
-            {
-                foundAnimals = db.Animals.Where(a => a.Name == animalSearch.Values.FirstOrDefault()).ToList();
-            }
-            if (animalSearch.ContainsKey(3))
-            {
-                foundAnimals = db.Animals.Where(a => a.Age == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
 
-            }
-            if (animalSearch.ContainsKey(4))
-            {
-                foundAnimals = db.Animals.Where(a => a.Demeanor == animalSearch.Values.FirstOrDefault()).ToList();
-            }
-            if (animalSearch.ContainsKey(5))
-            {
-                foundAnimals = db.Animals.Where(a => a.KidFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
-            }
-            if (animalSearch.ContainsKey(6))
-            {
-                foundAnimals = db.Animals.Where(a => a.PetFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
-            }
-            if (animalSearch.ContainsKey(7))
-            {
-                foundAnimals = db.Animals.Where(a => a.Weight == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
-            }
+            foreach (KeyValuePair<int, string> pair in animalSearch)
+                List<Animal> foundAnimals;
+                if (animalSearch.ContainsKey(1))
+                    {
+                        Category.Join(context.Animals, u => u.Category.ID, c => c.CategoryID).Select
+                        Category.animalSearch.Values
+                        foundAnimals = db.Animals.Where(a => a.CategoryId == !!!!!).FirstOrDefault()).ToList();
+                    }
+                if (animalSearch.ContainsKey(2))
+                {
+                    foundAnimals = db.Animals.Where(a => a.Name == animalSearch.Values.FirstOrDefault()).ToList();
+                }
+                if (animalSearch.ContainsKey(3))
+                {
+                    foundAnimals = db.Animals.Where(a => a.Age == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
+
+                }
+                if (animalSearch.ContainsKey(4))
+                {
+                    foundAnimals = db.Animals.Where(a => a.Demeanor == animalSearch.Values.FirstOrDefault()).ToList();
+                }
+                if (animalSearch.ContainsKey(5))
+                {
+                    foundAnimals = db.Animals.Where(a => a.KidFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
+                }
+                if (animalSearch.ContainsKey(6))
+                {
+                    foundAnimals = db.Animals.Where(a => a.PetFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
+                }
+                if (animalSearch.ContainsKey(7))
+                {
+                    foundAnimals = db.Animals.Where(a => a.Weight == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
+                }
 
 
 
