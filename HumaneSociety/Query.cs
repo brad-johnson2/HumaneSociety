@@ -143,12 +143,9 @@ namespace HumaneSociety
             newAnimal = db.Animals.Where(m => m.AnimalId == animalId).FirstOrDefault();
 
 
-            Room getRoom = db.Rooms.Where(a => a.AnimalId == newAnimal.AnimalId).FirstOrDefault(;
-
+            Room getRoom = db.Rooms.Where(a => a.AnimalId == newAnimal.AnimalId).FirstOrDefault();
             
-
             
-            // if category isn't found in the Db, create and insert it
             if (getRoom == null)
             {
                 Room newRoom = new Room();
@@ -162,9 +159,6 @@ namespace HumaneSociety
                 return newRoom;
             }
 
-            
-
-            // submit changes
             db.SubmitChanges();
             return getRoom;
 
@@ -211,8 +205,43 @@ namespace HumaneSociety
 
         internal static IQueryable<AnimalShot> GetShots(Animal animal)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            Animal newAnimal = new Animal();
+            newAnimal = db.Animals.Where(m => m.AnimalId == animalId).FirstOrDefault();
+
+
+            Shot getShots = db.Shots.Where(a => a.AnimalId == newAnimal.AnimalId).FirstOrDefault();
+
+
+            if (getShots == null)
+            {
+                Shot newShot = new Shot();
+                newRoom.AnimalId = newAnimal.AnimalId;
+                newShot.Name = UserInterface.GetStringData("shots", "animal's?");
+
+                db.Shots.InsertOnSubmit(newShot);
+                db.SubmitChanges();
+
+
+                return newShot;
+            }
+
+            db.SubmitChanges();
+            return getShots;
+
+
+
+
+
+
+
+
         }
+
+
+
+
 
         internal static void AddUsernameAndPassword(Employee employee)
         {
