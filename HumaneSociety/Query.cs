@@ -390,15 +390,17 @@ namespace HumaneSociety
             var animalSearch = UserInterface.GetAnimalCriteria();
 
             List<Animal> foundAnimals;
+            IQueryable<Animal> foundCategory;
 
 
             foreach (KeyValuePair<int, string> pair in animalSearch)
                
                 if (pair.Key == 1)
                     {
-                    //getrooms
-                        
-                        foundAnimals = db.Animals.Where(a => a.CategoryId == !!!!!).FirstOrDefault()).ToList();
+                     foundCategory = db.Categories.Where(a => a.Name == animalSearch.Values.FirstOrDefault());
+
+
+                    foundAnimals = db.Animals.Where(a => a.Name == foundCategory).FirstOrDefault()).ToList();
                     }
                 if (pair.Key == 2)
                 {
