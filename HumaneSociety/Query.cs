@@ -137,7 +137,37 @@ namespace HumaneSociety
 
         internal static Room GetRoom(int animalId)
         {
-            throw new NotImplementedException();
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+
+            Animal newAnimal = new Animal();
+            newAnimal = db.Animals.Where(m => m.AnimalId == animalId).FirstOrDefault();
+
+
+            Room getRoom = db.Rooms.Where(a => a.AnimalId == newAnimal.AnimalId).FirstOrDefault(;
+
+            
+
+            
+            // if category isn't found in the Db, create and insert it
+            if (getRoom == null)
+            {
+                Room newRoom = new Room();
+                newRoom.AnimalId = newAnimal.AnimalId;
+                newRoom.RoomNumber = UserInterface.GetIntegerData("Rooms?", "Room number?");
+
+                db.Rooms.InsertOnSubmit(newRoom);
+                db.SubmitChanges();
+
+                
+                return newRoom;
+            }
+
+            
+
+            // submit changes
+            db.SubmitChanges();
+            return getRoom;
+
         }
 
         internal static void UpdateAdoption(bool v, Adoption adoption)
@@ -203,17 +233,14 @@ namespace HumaneSociety
 
         internal static int? GetCategoryId()
         {
-            //search if categoryid exists 
-
-            //if it doesn't, make a new one
-
+           
 
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             string getCat = UserInterface.GetStringData("the animal", "species");
 
             
 
-            // look for existing category in Db (null will be returned if the category isn't already in the Db
+            
             Category updatedCategory = db.Categories.Where(a => a.Name == getCat).FirstOrDefault();
 
             // if category isn't found in the Db, create and insert it
@@ -366,7 +393,9 @@ namespace HumaneSociety
 
             if (animalSearch.ContainsKey(1))
             {
-                foundAnimals = db.Categories.Where(a => a.Name == animalSearch[1]).FirstOrDefault()).ToList();
+                Category.Join(context.Animals, u => u.Category.ID, c => c.CategoryID).Select
+                Category.animalSearch.Values
+                foundAnimals = db.Animals.Where(a => a.CategoryId == !!!!!).FirstOrDefault()).ToList();
             }
             if (animalSearch.ContainsKey(2))
             {
@@ -399,12 +428,12 @@ namespace HumaneSociety
 
 
 
-            foundAnimals = db.Animals.Where(
-                m =>
+            //foundAnimals = db.Animals.Where(
+            //    m =>
                 
-                (m.Category == animal.category) &&
-                (m.KidFriendly == animal.KidFriendly)
-                ).OrderBy(m => m.AnimalID).ToList();
+            //    (m.Category == animal.category) &&
+            //    (m.KidFriendly == animal.KidFriendly)
+            //    ).OrderBy(m => m.AnimalID).ToList();
 
             UserInterface.DisplayAnimals(foundAnimals);
             return foundAnimals;
