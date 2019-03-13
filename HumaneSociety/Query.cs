@@ -207,34 +207,9 @@ namespace HumaneSociety
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            Animal newAnimal = new Animal();
-            newAnimal = db.Animals.Where(m => m.AnimalId == animalId).FirstOrDefault();
+            IQueryable<AnimalShot> listAnimalShots = db.AnimalShots.Where(m => m.AnimalId == animal.AnimalId);
 
-
-            Shot getShots = db.Shots.Where(a => a.AnimalId == newAnimal.AnimalId).FirstOrDefault();
-
-
-            if (getShots == null)
-            {
-                Shot newShot = new Shot();
-                newRoom.AnimalId = newAnimal.AnimalId;
-                newShot.Name = UserInterface.GetStringData("shots", "animal's?");
-
-                db.Shots.InsertOnSubmit(newShot);
-                db.SubmitChanges();
-
-
-                return newShot;
-            }
-
-            db.SubmitChanges();
-            return getShots;
-
-
-
-
-
-
+            return listAnimalShots;
 
 
         }
@@ -414,44 +389,40 @@ namespace HumaneSociety
 
             var animalSearch = UserInterface.GetAnimalCriteria();
 
-            
-            
-            
-
-            
+            List<Animal> foundAnimals;
 
 
             foreach (KeyValuePair<int, string> pair in animalSearch)
-                List<Animal> foundAnimals;
-                if (animalSearch.ContainsKey(1))
+               
+                if (pair.Key == 1)
                     {
-                        Category.Join(context.Animals, u => u.Category.ID, c => c.CategoryID).Select
-                        Category.animalSearch.Values
+                    //getrooms
+                        
                         foundAnimals = db.Animals.Where(a => a.CategoryId == !!!!!).FirstOrDefault()).ToList();
                     }
-                if (animalSearch.ContainsKey(2))
+                if (pair.Key == 2)
                 {
                     foundAnimals = db.Animals.Where(a => a.Name == animalSearch.Values.FirstOrDefault()).ToList();
                 }
-                if (animalSearch.ContainsKey(3))
-                {
+                if (pair.Key == 3)
+            {
                     foundAnimals = db.Animals.Where(a => a.Age == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
 
                 }
-                if (animalSearch.ContainsKey(4))
-                {
+                if (pair.Key == 4)
+            {
                     foundAnimals = db.Animals.Where(a => a.Demeanor == animalSearch.Values.FirstOrDefault()).ToList();
                 }
-                if (animalSearch.ContainsKey(5))
-                {
+                if (pair.Key == 1)
+            {
                     foundAnimals = db.Animals.Where(a => a.KidFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
-                if (animalSearch.ContainsKey(6))
-                {
+                if (pair.Key == 1)
+            {
                     foundAnimals = db.Animals.Where(a => a.PetFriendly == bool.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
-                if (animalSearch.ContainsKey(7))
-                {
+                if (pair.Key == 1)
+            {
                     foundAnimals = db.Animals.Where(a => a.Weight == int.Parse(animalSearch.Values.FirstOrDefault())).ToList();
                 }
 
