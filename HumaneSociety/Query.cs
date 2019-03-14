@@ -138,9 +138,10 @@ namespace HumaneSociety
             db.SubmitChanges();
         }
 
-        internal static Delegate RunEmployeeQueries(Employee employee, string v)
-        {
-            throw new NotImplementedException();
+        public  Delegate RunEmployeeQueries(Employee employee, string v);
+
+
+        
             //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
             //switch (v)
             //{
@@ -168,6 +169,8 @@ namespace HumaneSociety
         //}
 
         }
+
+        
 
         internal static Room GetRoom(int animalId)
         {
@@ -408,14 +411,17 @@ namespace HumaneSociety
         internal static void RemoveAnimal(Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
-
-
-
+            
             Animal deleteAnimal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).SingleOrDefault();
-            db.Animals.DeleteOnSubmit(deleteAnimal);
-           
+            AnimalShot deleteShot = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId).SingleOrDefault();
+            Room deleteRoom = db.Rooms.Where(a => a.AnimalId == animal.AnimalId).SingleOrDefault();
+            Adoption deleteAdoption = db.Adoptions.Where(a => a.AnimalId == animal.AnimalId).SingleOrDefault();
 
+
+            db.Animals.DeleteOnSubmit(deleteAnimal);
+            db.AnimalShots.DeleteOnSubmit(deleteShot);
+            db.Rooms.DeleteOnSubmit(deleteRoom);
+            db.Adoptions.DeleteOnSubmit(deleteAdoption);
            
             Console.WriteLine("Deleted.");
             db.SubmitChanges();
