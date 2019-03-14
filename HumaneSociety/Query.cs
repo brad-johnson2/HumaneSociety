@@ -140,37 +140,38 @@ namespace HumaneSociety
 
         public  Delegate RunEmployeeQueries(Employee employee, string v);
 
+        static void Create(Employee employee, string v)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.Employees.InsertOnSubmit(employee);
+            db.SubmitChanges();
+                    
+        }
 
-        
-            //HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-            //switch (v)
-            //{
-            //    case "create":
-            //        db.Employees.InsertOnSubmit(employee);
-            //        db.SubmitChanges();
-            //        break;
-
-            //    case "delete":
-            //        db.Employees.DeleteOnSubmit(employee);
-            //        db.SubmitChanges();
-            //        break;
-
-            //    case "update":
-            //        employee = db.Employees.Where(a => a.EmployeeId == employee.EmployeeId).Single();
-            //        break;
-
-            //    case "read":
-            //        Console.WriteLine(employee);
-            //        break;
-
-            //    default:
-            //        break;
-
-        //}
+        static void Read(Employee employee, string v)
+        {
+            Console.WriteLine(employee);
 
         }
 
-        
+        static void Update(Employee employee, string v)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            employee = db.Employees.Where(a => a.EmployeeId == employee.EmployeeId).Single();
+            db.SubmitChanges();
+        }
+
+        static void Delete(Employee employee, string v)
+        {
+            HumaneSocietyDataContext db = new HumaneSocietyDataContext();
+            db.Employees.DeleteOnSubmit(employee);
+            db.SubmitChanges();
+        }
+
+        Query query = new Query;
+
+        Query.RunEmployeeQueries create = new Query.RunEmployeeQueries()
+
 
         internal static Room GetRoom(int animalId)
         {
