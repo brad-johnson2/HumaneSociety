@@ -124,23 +124,18 @@ namespace HumaneSociety
 
         }
 
-        internal static void Adopt(object animal, Client client)
+        internal static void Adopt(Animal animal, Client client)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
-
-           
-
+            
             Adoption newAdoption = null;
             newAdoption.ClientId = client.ClientId;
-            newAdoption.AnimalId = animal;
+            newAdoption.AnimalId = animal.AnimalId;
             newAdoption.ApprovalStatus = "Pending";
-
             newAdoption.PaymentCollected = false;
             newAdoption.AdoptionFee = 75;
-            
 
-
-            submit 
+            db.SubmitChanges();
         }
 
         internal static Delegate RunEmployeeQueries(Employee employee, string v)
@@ -211,7 +206,6 @@ namespace HumaneSociety
                 Animal adoptedAnimal = db.Animals.Where(a => a.AnimalId == adoption.AnimalId).FirstOrDefault();
                 adoptedAnimal.AdoptionStatus = "Adopted";
                 Console.WriteLine("Approved.");
-                //UserEmployee.RunUserMenus();
             }
             else
             {
@@ -281,11 +275,24 @@ namespace HumaneSociety
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
 
-            var foundShots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId);  //name
+            var foundShots = db.AnimalShots.Where(a => a.AnimalId == animal.AnimalId); 
 
-            AnimalShot shotItem = db.AnimalShots.Where(a => a.Shot == foundShots).FirstOrDefault(); //AnimalShot.shotid == shot.shotid
+            AnimalShot shotItem = db.AnimalShots.Where(a => a.Shot == foundShots).FirstOrDefault(); 
+
+            if(shotItem == null)
+            {
+                AnimalShot newShot = new AnimalShot();
+                newShot.Shot.Name = v;
+
+                db.AnimalShots.InsertOnSubmit(newShot);
+                shotItem.DateReceived = DateTime.Now;
+                db.SubmitChanges();
+
+                shotItem = newShot;
+            }
 
             shotItem.DateReceived = DateTime.Now;
+            db.SubmitChanges();
         }
 
         internal static int? GetCategoryId()
@@ -398,31 +405,20 @@ namespace HumaneSociety
 
 
 
-        internal static void RemoveAnimal(object animal)
+        internal static void RemoveAnimal(Animal animal)
         {
             HumaneSocietyDataContext db = new HumaneSocietyDataContext();
 
-            db.Log = Console.Out;
-
-            Console.WriteLine("Which Animal ID would you like to delete?");
-            Console.ReadLine();
-            int deleteAnimal = int.Parse(Console.ReadLine());
 
 
-            var ordDetailQuery =
-                from odq in db.Animals
-                where odq.AnimalId == deleteAnimal
-                select odq;
 
-            foreach (var entry in ordDetailQuery)
-            {
-                
-                db.Animals.DeleteOnSubmit(entry);
-            }
+            Animal deleteAnimal = db.Animals.Where(a => a.AnimalId == animal.AnimalId).SingleOrDefault();
+            db.Animals.DeleteOnSubmit(deleteAnimal);
+           
 
            
             Console.WriteLine("Deleted.");
-            
+            db.SubmitChanges();
         }
 
         internal static IQueryable<Animal> SearchForAnimalByMultipleTraits()
